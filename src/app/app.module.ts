@@ -9,7 +9,6 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { LoginComponent } from './components/login/login.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AuthService } from './shared/services/auth.service';
 import { AngularFireModule } from '@angular/fire/compat';
 
 @NgModule({
