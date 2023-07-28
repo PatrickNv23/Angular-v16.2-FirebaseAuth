@@ -1,0 +1,16 @@
+<h3>Sign In</h3>
+<div>
+  <input type="text" placeholder="Username" #username required />
+</div>
+<div>
+  <input type="password" placeholder="Password" #password required />
+</div>
+<div>
+  <input type="button" value="Log in" (click)="logIn(username.value, password.value)" />
+</div>
+<div>
+  <a routerLink="/sign-up">Registrate</a>
+</div>
+<div>
+  <button (click)="logInWithGoogle()">Regístrate con Google</button>
+</div>

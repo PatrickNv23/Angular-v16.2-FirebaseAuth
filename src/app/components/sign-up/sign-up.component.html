@@ -1,0 +1,10 @@
+<h3>Sign Up</h3>
+<div>
+  <input type="text" placeholder="Email" #email required />
+</div>
+<div>
+  <input type="password" placeholder="Password" #password required />
+</div>
+<div>
+  <input type="button" value="Sign Up" (click)="signUp(email.value, password.value)" />
+</div>
