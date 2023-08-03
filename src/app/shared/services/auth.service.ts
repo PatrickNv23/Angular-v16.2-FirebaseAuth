@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { GoogleAuthProvider } from '@angular/fire/auth';
+import { Injectable, NgZone } from '@angular/core';
+import { GoogleAuthProvider, UserCredential } from '@angular/fire/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 
@@ -13,6 +13,7 @@ export class AuthService {
   constructor(
     private firebaseAuthenticationService: AngularFireAuth,
     private router: Router,
+    private ngZone: NgZone
   ) {
 
     // save user in localStorage (log-in) and setting up null when log-out
@@ -30,12 +31,9 @@ export class AuthService {
   // log-in with email and password
   logInWithEmailAndPassword(email: string, password: string): Promise<void> {
     return this.firebaseAuthenticationService.signInWithEmailAndPassword(email, password)
-      .then((userResponse) => {
-        console.log(userResponse);
+      .then(() => {
         this.firebaseAuthenticationService.authState.subscribe((user) => {
-          if (user) {
-            this.router.navigate(['dashboard']);
-          }
+          user && this.ngZone.run(() => this.router.navigate(['dashboard']))
         })
       })
       .catch((error) => {
@@ -46,8 +44,8 @@ export class AuthService {
   // log-in with google
   logInWithGoogleProvider(): Promise<void> {
     return this.firebaseAuthenticationService.signInWithPopup(new GoogleAuthProvider())
-      .then((response: any) => {
-        response && this.router.navigate(["/dashboard"]);
+      .then((user) => {
+        user && this.ngZone.run(() => this.router.navigate(['dashboard']))
       })
       .catch((error: Error) => {
         alert(error.message);
@@ -57,9 +55,8 @@ export class AuthService {
   // sign-up with email and password
   signUpWithEmailAndPassword(email: string, password: string): Promise<void> {
     return this.firebaseAuthenticationService.createUserWithEmailAndPassword(email, password)
-      .then((userResponse) => {
-        console.log(userResponse);
-        this.router.navigate(['login']);
+      .then((user) => {
+        user && this.ngZone.run(() => this.router.navigate(['dashboard']))
       })
       .catch((error) => {
         alert(error.message);
